@@ -16,6 +16,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.logging.Filter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,7 +30,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserServiceImpl userService;
     private CustomUersDetails customUersDetails;
-    private JwtTokenFilter jwtTokenFilter;
+    private final JwtTokenFilter jwtTokenFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -81,10 +84,10 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 
                 // Our private endpoints
                 .anyRequest().authenticated();
-
+        Filter.class.getProtectionDomain().getCodeSource().getLocation();
 
         // Add JWT token filter
-        http.addFilterBefore(jwtTokenFilter, customUersDetails);
+        http.addFilterBefore(jwtTokenFilter,UsernamePasswordAuthenticationFilter.class);
 
     }
 

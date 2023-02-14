@@ -1,5 +1,7 @@
 package com.example.LoanApp2.JwtTokenUtils;
 
+import com.example.LoanApp2.services.UserServiceImpl;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
         import io.jsonwebtoken.Claims;
@@ -15,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class JwtTokenUtil {
-
+UserServiceImpl userServiceImpl;
     private String secret = "yBKrn1G0b7cY";
     //private final String jwtSecret = "yBKrn1G0b7cY";
     private final String jwtIssuer = "deliverance.com";  //https://passwordsgenerator.net/
@@ -75,12 +77,12 @@ public class JwtTokenUtil {
                 .signWith(SignatureAlgorithm.HS256, secret).compact();
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
+    public Boolean validateToken(String token,UserServiceImpl userServiceImpl) {
 
         final String username = extractUsername(token);
         //throw a 401 error to show token has expired
         if(isTokenExpired(token)) throw new RuntimeException("Token has expired");//throw a 401 error to show token has expired
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(userServiceImpl.getUser(username)) && !isTokenExpired(token));
     }
 }
 

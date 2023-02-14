@@ -7,9 +7,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Slf4j
-public class CustomUersDetails extends org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter {
+public class CustomUersDetails extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
     public void UsernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager){
 this.authenticationManager=authenticationManager;
